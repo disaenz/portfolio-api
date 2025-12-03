@@ -11,8 +11,7 @@ from services.grant_service import fetch_grant, fetch_all, add_grant, change_gra
 logger = logging.getLogger(__name__)
 
 router = APIRouter(
-  prefix="/api/grants",
-  tags=["Grants"],
+  tags=["Grant Service"],
   responses={ 
     422: {"model": APIError},
     404: {"model": APIError},
