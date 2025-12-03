@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  ECR_REPOSITORY: grant-api
+  ECR_REPOSITORY: portfolio-api
 
 jobs:
   pip_audit:
@@ -121,5 +121,5 @@ jobs:
       - name: "🚀 Update Lambda function"
         run: |
           aws lambda update-function-code \
-            --function-name grant-api \
+            --function-name portfolio-api \
             --image-uri ${{ secrets.IMAGE_URI }}
