@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Portfolio API",
-    version="v1.1.0",
+    version="v1.1.1",
     description=(
         "A scalable backend API powering the Daniel Saenz ecosystem. "
         "Currently supports grant management features and is designed to "

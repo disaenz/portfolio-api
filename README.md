@@ -1,30 +1,47 @@
-# Grant API
+# 📡 Portfolio API
 
-Welcome to the **Grant API** — a serverless, containerized REST API for managing grant-related operations, built with FastAPI and deployed to AWS Lambda using Docker and ECR. This project showcases modern Python backend practices, secure infrastructure-as-code, and automated CI/CD pipelines.
+The **Portfolio API** is a modern, serverless backend powering personal projects, portfolio automation, and future AI-driven features. Built with **FastAPI**, containerized with **Docker**, and deployed to AWS Lambda as a scalable container-image service.
 
----
-
-## 🚀 Project Overview
-
-The Grant API provides a fast, serverless backend designed to be cost-efficient, scalable, and easy to maintain. It supports:
-
-* **REST endpoints** for grant data operations (CRUD, querying, etc)
-* **FastAPI** for type-safe, high-performance Python APIs
-* **Database integration** (PostgreSQL, Neon, or any Postgres-compatible cloud DB)
-* **CI/CD** with security scanning, automated ECR cleanup, and one-command Lambda deployment
-* **Modern DevSecOps** practices: Docker, Trivy scanning, least-privilege IAM, IaC for ECR/Lambda roles
+This API originally started as a backend for grant operations and is now evolving into the centerpiece of a personal cloud portfolio ecosystem.
 
 ---
 
-## 🛠 Technologies
+## ✨ Key Features
 
-* **API Framework**: FastAPI (Python 3.12)
-* **Containerization**: Docker, AWS ECR
-* **Serverless Compute**: AWS Lambda (Container Image)
-* **Database**: PostgreSQL (via asyncpg + SQLAlchemy)
-* **CI/CD**: GitHub Actions
-* **Security & Quality**: Trivy (image vulnerability scanning), IAM least-privilege policies
-* **Infrastructure as Code**: Terraform (for ECR, Lambda, IAM roles/policies)
+🔹 Serverless — zero idle compute cost  
+🔹 High-performance **FastAPI** backend  
+🔹 PostgreSQL relational persistence  
+🔹 Automated CI/CD builds and scans  
+🔹 Designed for modular expansion (AI + portfolio insights)
+
+---
+
+## 🧩 Architecture Overview
+
+| Layer | Technology |
+|-------|------------|
+| Application Framework | FastAPI (Python 3.12) |
+| Containerization | Docker |
+| Deployment Target | AWS Lambda (Container Image) |
+| Database | NeonDB (PostgreSQL) |
+| CI/CD | GitHub Actions |
+| Security | Trivy vulnerability scanning |
+
+📙 Live API Docs:  
+https://api.daniel-saenz.com/docs
+
+---
+
+## 🔌 Current Endpoints
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/api/grants` | GET | List all grants |
+| `/api/grants/{id}` | GET | Fetch a grant |
+| `/api/grants` | POST | Create a new grant |
+| `/api/grants/{id}` | PATCH | Update a grant |
+
+More portfolio-focused services are in active development.
 
 ---
 
