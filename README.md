@@ -33,8 +33,8 @@ The Grant API provides a fast, serverless backend designed to be cost-efficient,
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/disaenz/grant-api.git
-   cd grant-api
+   git clone https://github.com/disaenz/porfolio-api.git
+   cd portfolio-api
    ```
 
 2. **Install dependencies**
@@ -64,13 +64,13 @@ The Grant API provides a fast, serverless backend designed to be cost-efficient,
 1.	**Build Docker image**
 
     ```bash
-    docker build -f Dockerfile.local -t grant-api:latest .
+    docker build -f Dockerfile.local -t portfolio-api:latest .
     ```
 
 2.	**Run Docker container locally**
 
     ```bash
-    docker run -p 8000:8080 grant-api:latest
+    docker run -p 8000:8080 portfolio-api:latest
     ```
 
 ---
