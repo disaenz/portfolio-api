@@ -12,6 +12,7 @@ permissions:
 
 env:
   ECR_REPOSITORY: portfolio-api
+  LAMBDA_FUNCTION_NAME: portfolio-api
 
 jobs:
   pip_audit:
@@ -121,5 +122,5 @@ jobs:
       - name: "🚀 Update Lambda function"
         run: |
           aws lambda update-function-code \
-            --function-name portfolio-api \
+            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
             --image-uri ${{ secrets.IMAGE_URI }}
