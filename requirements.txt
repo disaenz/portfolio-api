@@ -4,4 +4,5 @@ SQLAlchemy
 asyncpg
 greenlet
 mangum
+openai
 
