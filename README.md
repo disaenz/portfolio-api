@@ -36,12 +36,12 @@ https://api.daniel-saenz.com/docs
 
 | Route | Method | Description |
 |-------|--------|-------------|
-| `/api/grants` | GET | List all grants |
-| `/api/grants/{id}` | GET | Fetch a grant |
-| `/api/grants` | POST | Create a new grant |
-| `/api/grants/{id}` | PATCH | Update a grant |
-
-More portfolio-focused services are in active development.
+| `/api/grants` | GET | List all grants *(example/demo resource)* |
+| `/api/grants/{id}` | GET | Fetch a grant by ID *(example/demo resource)* |
+| `/api/grants` | POST | Create a new grant *(example/demo resource)* |
+| `/api/grants/{id}` | PATCH | Update a grant *(example/demo resource)* |
+| `/api/ai` | GET | Health check for the AI service |
+| `/api/ai/chat` | POST | Ask questions about Daniel’s professional background (AI-powered) |
 
 ---
 
