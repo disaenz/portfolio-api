@@ -1,0 +1,121 @@
+{
+  "summary": "Senior DevSecOps and Software Engineer with over 10 years of experience supporting federal and public sector initiatives. Skilled in backend development, secure CI/CD automation, and multi-cloud infrastructure across AWS, Azure, and GCP.",
+  "experience": [
+    {
+      "company": "AmeriCorps (formerly CNCS)",
+      "role": "Senior DevSecOps Engineer",
+      "location": "Remote",
+      "start": "Jun 2024",
+      "end": "Present",
+      "responsibilities": [
+        "Built and maintained secure CI/CD pipelines integrating Fortify, SonarQube, and Trivy.",
+        "Automated deployment, testing, and vulnerability scans on pull requests.",
+        "Containerized applications using Docker for standardized deployment across environments.",
+        "Designed a multilingual translator app using C# and Azure Cognitive Services."
+      ]
+    },
+    {
+      "company": "Administrative Office of the U.S. Courts (Guidehouse)",
+      "role": "Senior DevSecOps Engineer",
+      "location": "Remote",
+      "start": "Jun 2020",
+      "end": "May 2024",
+      "responsibilities": [
+        "Automated CI/CD pipelines with Jenkins and integrated security throughout the SDLC.",
+        "Managed container deployments using Docker and Kubernetes on OpenShift.",
+        "Used ArgoCD and GitLab for GitOps delivery across environments.",
+        "Led a cloud-migration POC using Terraform across AWS, Azure, GCP, and OCI."
+      ]
+    },
+    {
+      "company": "Platinum Software Labs",
+      "role": "Lead Software Engineer (Cloud Development)",
+      "location": "Remote",
+      "start": "Feb 2019",
+      "end": "May 2020",
+      "responsibilities": [
+        "Designed and deployed microservices with .NET Core and Docker in Kubernetes.",
+        "Implemented automated unit testing and peer code review processes."
+      ]
+    },
+    {
+      "company": "Drug Enforcement Administration (Kiliuda Consulting)",
+      "role": "Software Engineer",
+      "location": "El Paso, TX",
+      "start": "Oct 2017",
+      "end": "Aug 2019",
+      "responsibilities": [
+        "Developed secure APIs and backend services with .NET, React, and React Native.",
+        "Managed deployment pipelines to ensure synchronized staging and production environments."
+      ]
+    },
+    {
+      "company": "Lockheed Martin / Leidos (UTEP)",
+      "role": "Software Engineer",
+      "location": "El Paso, TX",
+      "start": "Aug 2016",
+      "end": "Sep 2017",
+      "responsibilities": [
+        "Built internal reporting tools using C#, SharePoint, and AngularJS.",
+        "Integrated dynamic data with Web Services."
+      ]
+    },
+    {
+      "company": "IDOCKET.COM",
+      "role": "Software Engineer",
+      "location": "El Paso, TX",
+      "start": "May 2012",
+      "end": "Jul 2016",
+      "responsibilities": [
+        "Maintained and enhanced systems for law enforcement and county offices using Java, C#, and PHP."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Texas at El Paso",
+      "degree": "M.S. Software Engineering",
+      "years": "2015–2018",
+      "gpa": "3.80"
+    },
+    {
+      "institution": "University of Texas at El Paso",
+      "degree": "B.S. Computer Science",
+      "years": "2006–2012",
+      "gpa": "3.06"
+    }
+  ],
+  "certifications": [
+    "AWS Certified Cloud Practitioner — Issued June 2025"
+  ],
+  "skills": {
+    "languages_frameworks": [
+      "C#", "Java", "Python", "JavaScript", "React", "AngularJS",
+      "Node.js", "ASP.NET", ".NET Core", "PHP", "HTML", "CSS"
+    ],
+    "devops_ci_cd": [
+      "Jenkins", "GitLab CI", "GitHub Actions", "AWS CodePipeline",
+      "ArgoCD", "Fortify", "Trivy", "SonarQube"
+    ],
+    "cloud": [
+      "AWS", "Azure", "GCP", "OCI", "DigitalOcean"
+    ],
+    "containers_orchestration": [
+      "Docker", "Kubernetes", "OpenShift", "Podman", "EKS", "AKS", "GKE"
+    ],
+    "databases": [
+      "PostgreSQL", "MySQL", "SQL Server", "MongoDB"
+    ],
+    "web_servers": [
+      "Apache", "Nginx", "IIS", "Gunicorn"
+    ],
+    "tools": [
+      "Bash", "Batch", "Git",
+      "VS Code", "Visual Studio", "PyCharm", "Eclipse"
+    ]
+  },
+  "languages": [
+    "English (Fluent)",
+    "Spanish (Fluent)"
+  ]
+}

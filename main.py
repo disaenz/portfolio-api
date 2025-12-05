@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from controllers.grant_controller import router as grant_router
+from controllers.ai_controller import router as ai_router
 import logging
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
@@ -50,9 +51,8 @@ app.add_middleware(
 
 # Active APIs
 app.include_router(grant_router, prefix="/api/grants")
+app.include_router(ai_router, prefix="/api/ai")
 
-# Future AI / Chatbot endpoint (placeholder for expansion)
-# app.include_router(ai_router, prefix="/ai", tags=["AI Assistant"])
 
 # AWS Lambda Handler
 handler = Mangum(app)
