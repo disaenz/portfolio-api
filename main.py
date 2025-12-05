@@ -13,12 +13,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Portfolio API",
-    version="v1.1.1",
+    version="v1.2.0",
     description=(
-        "A scalable backend API powering the Daniel Saenz ecosystem. "
-        "Currently supports grant management features and is designed to "
-        "expand with new capabilities—including future AI-driven functionality "
-        "to enhance portfolio interactivity and automation."
+        "Backend service powering Daniel's portfolio, including grant management and AI-powered Q&A about his experience."
     ),
     docs_url="/docs",
     redoc_url="/redoc",
