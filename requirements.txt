@@ -5,4 +5,5 @@ asyncpg
 greenlet
 mangum
 openai
+langdetect
 

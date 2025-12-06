@@ -20,7 +20,7 @@ async def health_check():
     return {"status": "ok"}
 
 
-@router.post("/chat", response_model=ChatResponse, summary="Ask the AI about Daniel")
+@router.post("/chat", response_model=ChatResponse, summary="Ask the AI about Daniel", description="You may ask in either English or Spanish. The AI will respond in whichever language you use.")
 async def chat_with_ai(request: ChatRequest):
     ai_response = await ai_service.process_message(request.message)
 
