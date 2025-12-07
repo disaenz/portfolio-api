@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Portfolio API",
-    version="v1.2.1",
+    version="v1.2.2",
     description=(
         "Backend service powering Daniel's portfolio, including grant management and AI-powered Q&A about his experience."
     ),
@@ -33,6 +33,8 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "http://localhost:8081",
+    "http://localhost:5173",
+    "http://localhost:5174",
     "https://daniel-saenz.com",
     "https://www.daniel-saenz.com",
     "https://grants.daniel-saenz.com"
