@@ -90,28 +90,62 @@
   ],
   "skills": {
     "languages_frameworks": [
-      "C#", "Java", "Python", "JavaScript", "React", "AngularJS",
-      "Node.js", "ASP.NET", ".NET Core", "PHP", "HTML", "CSS"
+      "C#", "Java", "Python", "JavaScript",
+      "React", "AngularJS", "Node.js",
+      "ASP.NET", ".NET Core", "PHP",
+      "HTML", "CSS", "Chakra UI"
     ],
-    "devops_ci_cd": [
-      "Jenkins", "GitLab CI", "GitHub Actions", "AWS CodePipeline",
-      "ArgoCD", "Fortify", "Trivy", "SonarQube"
+    "devsecops_ci_cd": [
+      "GitHub Actions", "GitLab CI", "Jenkins",
+      "AWS CodePipeline", "ArgoCD",
+      "Fortify", "Trivy", "SonarQube",
+      "GitOps"
     ],
-    "cloud": [
-      "AWS", "Azure", "GCP", "OCI", "DigitalOcean"
+    "productivity_automation": [
+      "Azure Copilot", "Microsoft Forms", "Power Automate"
+    ],
+    "infrastructure_as_code": [
+      "Terraform", "CloudFormation"
     ],
     "containers_orchestration": [
-      "Docker", "Kubernetes", "OpenShift", "Podman", "EKS", "AKS", "GKE"
+      "Docker", "Docker Compose", "Kubernetes",
+      "Minikube", "Helm", "OpenShift", "Podman",
+      "EKS", "AKS", "GKE", "ECS", "Fargate"
     ],
-    "databases": [
-      "PostgreSQL", "MySQL", "SQL Server", "MongoDB"
+    "cloud_platforms": [
+      "AWS", "Azure", "Google Cloud", "Oracle Cloud", "DigitalOcean"
+    ],
+    "aws_services": [
+      "EC2", "S3", "IAM", "Route 53", "Amazon Kinesis",
+      "AWS Lambda", "API Gateway", "Amazon RDS",
+      "Amazon ECR", "AWS KMS", "AWS WAF"
+    ],
+    "relational_databases": [
+      "PostgreSQL", "MySQL", "SQL Server", "Amazon RDS"
+    ],
+    "nosql_databases": [
+      "MongoDB", "DynamoDB"
     ],
     "web_servers": [
       "Apache", "Nginx", "IIS", "Gunicorn"
     ],
-    "tools": [
+    "secrets_security": [
+      "HashiCorp Vault", "AWS KMS", "AWS WAF"
+    ],
+    "container_registries": [
+      "Amazon ECR", "Docker Hub", "Artifactory",
+      "Azure Container Registry"
+    ],
+    "ai_ml_services": [
+      "Azure Cognitive Services", "Amazon Polly",
+      "Amazon Transcribe", "Amazon Comprehend"
+    ],
+    "scripting_tools": [
       "Bash", "Batch", "Git",
       "VS Code", "Visual Studio", "PyCharm", "Eclipse"
+    ],
+    "languages_spoken": [
+      "English (Fluent)", "Spanish (Fluent)"
     ]
   },
   "languages": [
