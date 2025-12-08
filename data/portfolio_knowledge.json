@@ -1,5 +1,19 @@
 {
   "summary": "Senior DevSecOps and Software Engineer with over 10 years of experience supporting federal and public sector initiatives. Skilled in backend development, secure CI/CD automation, and multi-cloud infrastructure across AWS, Azure, and GCP.",
+  "about": {
+    "bio": [
+      "I’m a Software Engineer & DevSecOps Engineer with over 10 years of experience specializing in scalable backend systems and secure software delivery.",
+      "My focus is on building modern CI/CD pipelines that automate builds, enforce security scanning, run automated testing, and enable fast and reliable deployments.",
+      "Over the years, I’ve engineered complete applications and multi-cloud infrastructure migrations to AWS, Azure, GCP, and Oracle Cloud, always prioritizing reliability and zero downtime.",
+      "Technology moves fast — I stay ahead by quickly mastering new frameworks, tools, and cloud platforms to support evolving program needs."
+    ],
+    "personal_interests": [
+      "Watching and attending MLB games — especially the Los Angeles Dodgers at Dodger Stadium.",
+      "Following high-stakes soccer matches, cheering for Mexico and the United States.",
+      "Spending quality time with family, including Disneyland trips and travel to new places around the world."
+    ],
+    "resume_link": "https://www.dropbox.com/scl/fi/vr6msczyp321femehlrcg/Daniel-Saenz-Resume.pdf?rlkey=y2zh8uhylud8zgp6dt5jiund6&st=ai7knzyg&dl=0"
+  },
   "experience": [
     {
       "company": "AmeriCorps (formerly CNCS)",
@@ -90,32 +104,146 @@
   ],
   "skills": {
     "languages_frameworks": [
-      "C#", "Java", "Python", "JavaScript", "React", "AngularJS",
-      "Node.js", "ASP.NET", ".NET Core", "PHP", "HTML", "CSS"
+      "C#", "Java", "Python", "JavaScript",
+      "React", "AngularJS", "Node.js",
+      "ASP.NET", ".NET Core", "PHP",
+      "HTML", "CSS", "Chakra UI"
     ],
-    "devops_ci_cd": [
-      "Jenkins", "GitLab CI", "GitHub Actions", "AWS CodePipeline",
-      "ArgoCD", "Fortify", "Trivy", "SonarQube"
+    "devsecops_ci_cd": [
+      "GitHub Actions", "GitLab CI", "Jenkins",
+      "AWS CodePipeline", "ArgoCD",
+      "Fortify", "Trivy", "SonarQube",
+      "GitOps"
     ],
-    "cloud": [
-      "AWS", "Azure", "GCP", "OCI", "DigitalOcean"
+    "productivity_automation": [
+      "Azure Copilot", "Microsoft Forms", "Power Automate"
+    ],
+    "infrastructure_as_code": [
+      "Terraform", "CloudFormation"
     ],
     "containers_orchestration": [
-      "Docker", "Kubernetes", "OpenShift", "Podman", "EKS", "AKS", "GKE"
+      "Docker", "Docker Compose", "Kubernetes",
+      "Minikube", "Helm", "OpenShift", "Podman",
+      "EKS", "AKS", "GKE", "ECS", "Fargate"
     ],
-    "databases": [
-      "PostgreSQL", "MySQL", "SQL Server", "MongoDB"
+    "cloud_platforms": [
+      "AWS", "Azure", "Google Cloud", "Oracle Cloud", "DigitalOcean"
+    ],
+    "aws_services": [
+      "EC2", "S3", "IAM", "Route 53", "Amazon Kinesis",
+      "AWS Lambda", "API Gateway", "Amazon RDS",
+      "Amazon ECR", "AWS KMS", "AWS WAF"
+    ],
+    "relational_databases": [
+      "PostgreSQL", "MySQL", "SQL Server", "Amazon RDS"
+    ],
+    "nosql_databases": [
+      "MongoDB", "DynamoDB"
     ],
     "web_servers": [
       "Apache", "Nginx", "IIS", "Gunicorn"
     ],
-    "tools": [
+    "secrets_security": [
+      "HashiCorp Vault", "AWS KMS", "AWS WAF"
+    ],
+    "container_registries": [
+      "Amazon ECR", "Docker Hub", "Artifactory", "Azure Container Registry"
+    ],
+    "ai_ml_services": [
+      "Azure Cognitive Services", "Amazon Polly",
+      "Amazon Transcribe", "Amazon Comprehend"
+    ],
+    "scripting_tools": [
       "Bash", "Batch", "Git",
       "VS Code", "Visual Studio", "PyCharm", "Eclipse"
+    ],
+    "languages_spoken": [
+      "English (Fluent)", "Spanish (Fluent)"
     ]
   },
   "languages": [
     "English (Fluent)",
     "Spanish (Fluent)"
+  ],
+  "projects": [
+    {
+      "name": "Infrastructure as Code (AWS Platform)",
+      "description": "Automated deployment of a secure, scalable AWS platform that hosts the portfolio ecosystem. Modular Terraform architecture enabling consistent environments, CI/CD automation, and global content delivery.",
+      "role": "Sole architect and DevOps engineer",
+      "impact": "Zero-manual deployment infrastructure that supports production traffic and future scalability.",
+      "features": [
+        "S3 static website hosting",
+        "CloudFront CDN with HTTPS & Route 53 DNS",
+        "IAM least-privilege controls",
+        "Serverless API hosting via Lambda + API Gateway",
+        "CI/CD using GitHub Actions"
+      ],
+      "tech_stack": [
+        "Terraform", "AWS", "CloudFront", "Route 53",
+        "Lambda", "API Gateway", "CI/CD", "GitHub Actions"
+      ],
+      "repo": "https://github.com/disaenz/aws-iac"
+    },
+    {
+      "name": "React AI Portfolio",
+      "description": "Modern, responsive portfolio with a bilingual AI Chat Assistant that answers career questions based on verified structured data. Fully serverless and globally distributed through CloudFront.",
+      "role": "Full-stack developer & product designer",
+      "impact": "Increases engagement from recruiters and hiring managers through conversational exploration of experience.",
+      "features": [
+        "AI-powered résumé chat assistant (English & Spanish)",
+        "Mobile-first accessibility",
+        "Secure CI/CD deployment",
+        "Real-time integration with Portfolio API"
+      ],
+      "tech_stack": [
+        "React", "Chakra UI", "Vite",
+        "AWS S3", "CloudFront", "CI/CD", "GitHub Actions"
+      ],
+      "repo": "https://github.com/disaenz/portfolio-site"
+    },
+    {
+      "name": "Portfolio API (Python Serverless)",
+      "description": "FastAPI serverless microservice that powers the AI assistant with structured responses. Deployed to AWS Lambda with OpenAPI documentation, automated testing, and vulnerability scanning.",
+      "role": "Backend developer & security-focused DevOps engineer",
+      "impact": "Ensures correctness, consistency, and security of all AI-provided career information.",
+      "features": [
+        "AI résumé assistant",
+        "API Gateway + Lambda secure deployment",
+        "Automated CI/CD, scans, and monitoring",
+        "Structured portfolio metadata extraction"
+      ],
+      "tech_stack": [
+        "Python", "FastAPI", "AWS Lambda",
+        "API Gateway", "OpenAI API", "Docker", "CI/CD"
+      ],
+      "repo": "https://github.com/disaenz/portfolio-api",
+      "demo": "https://api.daniel-saenz.com/docs"
+    },
+    {
+      "name": "Grant Management React App",
+      "description": "CRUD grant management tool showcasing modern React components integrated with the Portfolio API backend. Deployed via CI/CD with security checks.",
+      "role": "Full-stack engineer",
+      "impact": "Demonstrates production-ready frontend and backend interaction patterns.",
+      "features": [
+        "Role-based grant CRUD features",
+        "Reusable Axios service layer",
+        "Static code analysis with CI enforcement",
+        "CloudFront deployment automation"
+      ],
+      "tech_stack": [
+        "React", "AWS S3", "API Gateway", "FastAPI", "CI/CD"
+      ],
+      "repo": "https://github.com/disaenz/grant-app",
+      "demo": "https://grants.daniel-saenz.com/"
+    },
+    {
+      "name": "DevSecOps PoC (EPCC Showcase)",
+      "description": "Educational DevSecOps environment demonstrating CI/CD, containerization, and Kubernetes operations used to train students on modern software delivery.",
+      "impact": "Helped engineering students gain real-world DevSecOps exposure.",
+      "tech_stack": [
+        "Jenkins", "Docker", "Kubernetes", "Security Scanning"
+      ],
+      "repo": "https://github.com/disaenz/hello_world_devsecops"
+    }
   ]
 }
