@@ -34,7 +34,6 @@ origins = [
     "http://localhost:3000",
     "http://localhost:8081",
     "http://localhost:5173",
-    "http://localhost:5174",
     "https://daniel-saenz.com",
     "https://www.daniel-saenz.com",
     "https://grants.daniel-saenz.com"

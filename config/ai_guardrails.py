@@ -2,9 +2,9 @@ FORBIDDEN_KEYWORDS = [
     # Personal identity / location
     "address", "home address", "donde vives", "dónde vives", "where do you live",
     "location", "ubicación", "city", "ciudad", "state", "estado", "country", "país",
-    
+
     # Age / DOB
-    "age", "how old are you", "birthday", "date of birth",
+    "how old are you", "what is your age", "age?", "birthday", "date of birth",
     "edad", "cuántos años tienes", "cumpleaños", "fecha de nacimiento",
 
     # Family / Relationships
