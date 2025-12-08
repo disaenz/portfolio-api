@@ -151,5 +151,86 @@
   "languages": [
     "English (Fluent)",
     "Spanish (Fluent)"
+  ],
+  "projects": [
+    {
+      "name": "Infrastructure as Code (AWS Platform)",
+      "description": "Automated deployment of a secure, scalable AWS platform that hosts the portfolio ecosystem. Modular Terraform architecture enabling consistent environments, CI/CD automation, and global content delivery.",
+      "role": "Sole architect and DevOps engineer",
+      "impact": "Zero-manual deployment infrastructure that supports production traffic and future scalability.",
+      "features": [
+        "S3 static website hosting",
+        "CloudFront CDN with HTTPS & Route 53 DNS",
+        "IAM least-privilege controls",
+        "Serverless API hosting via Lambda + API Gateway",
+        "CI/CD using GitHub Actions"
+      ],
+      "tech_stack": [
+        "Terraform", "AWS", "CloudFront", "Route 53",
+        "Lambda", "API Gateway", "CI/CD", "GitHub Actions"
+      ],
+      "repo": "https://github.com/disaenz/aws-iac"
+    },
+    {
+      "name": "React AI Portfolio",
+      "description": "Modern, responsive portfolio with a bilingual AI Chat Assistant that answers career questions based on verified structured data. Fully serverless and globally distributed through CloudFront.",
+      "role": "Full-stack developer & product designer",
+      "impact": "Increases engagement from recruiters and hiring managers through conversational exploration of experience.",
+      "features": [
+        "AI-powered résumé chat assistant (English & Spanish)",
+        "Mobile-first accessibility",
+        "Secure CI/CD deployment",
+        "Real-time integration with Portfolio API"
+      ],
+      "tech_stack": [
+        "React", "Chakra UI", "Vite",
+        "AWS S3", "CloudFront", "CI/CD", "GitHub Actions"
+      ],
+      "repo": "https://github.com/disaenz/portfolio-site"
+    },
+    {
+      "name": "Portfolio API (Python Serverless)",
+      "description": "FastAPI serverless microservice that powers the AI assistant with structured responses. Deployed to AWS Lambda with OpenAPI documentation, automated testing, and vulnerability scanning.",
+      "role": "Backend developer & security-focused DevOps engineer",
+      "impact": "Ensures correctness, consistency, and security of all AI-provided career information.",
+      "features": [
+        "AI résumé assistant",
+        "API Gateway + Lambda secure deployment",
+        "Automated CI/CD, scans, and monitoring",
+        "Structured portfolio metadata extraction"
+      ],
+      "tech_stack": [
+        "Python", "FastAPI", "AWS Lambda",
+        "API Gateway", "OpenAI API", "Docker", "CI/CD"
+      ],
+      "repo": "https://github.com/disaenz/portfolio-api",
+      "demo": "https://api.daniel-saenz.com/docs"
+    },
+    {
+      "name": "Grant Management React App",
+      "description": "CRUD grant management tool showcasing modern React components integrated with the Portfolio API backend. Deployed via CI/CD with security checks.",
+      "role": "Full-stack engineer",
+      "impact": "Demonstrates production-ready frontend and backend interaction patterns.",
+      "features": [
+        "Role-based grant CRUD features",
+        "Reusable Axios service layer",
+        "Static code analysis with CI enforcement",
+        "CloudFront deployment automation"
+      ],
+      "tech_stack": [
+        "React", "AWS S3", "API Gateway", "FastAPI", "CI/CD"
+      ],
+      "repo": "https://github.com/disaenz/grant-app",
+      "demo": "https://grants.daniel-saenz.com/"
+    },
+    {
+      "name": "DevSecOps PoC (EPCC Showcase)",
+      "description": "Educational DevSecOps environment demonstrating CI/CD, containerization, and Kubernetes operations used to train students on modern software delivery.",
+      "impact": "Helped engineering students gain real-world DevSecOps exposure.",
+      "tech_stack": [
+        "Jenkins", "Docker", "Kubernetes", "Security Scanning"
+      ],
+      "repo": "https://github.com/disaenz/hello_world_devsecops"
+    }
   ]
 }
