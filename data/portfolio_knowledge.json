@@ -1,5 +1,19 @@
 {
   "summary": "Senior DevSecOps and Software Engineer with over 10 years of experience supporting federal and public sector initiatives. Skilled in backend development, secure CI/CD automation, and multi-cloud infrastructure across AWS, Azure, and GCP.",
+  "about": {
+    "bio": [
+      "I’m a Software Engineer & DevSecOps Engineer with over 10 years of experience specializing in scalable backend systems and secure software delivery.",
+      "My focus is on building modern CI/CD pipelines that automate builds, enforce security scanning, run automated testing, and enable fast and reliable deployments.",
+      "Over the years, I’ve engineered complete applications and multi-cloud infrastructure migrations to AWS, Azure, GCP, and Oracle Cloud, always prioritizing reliability and zero downtime.",
+      "Technology moves fast — I stay ahead by quickly mastering new frameworks, tools, and cloud platforms to support evolving program needs."
+    ],
+    "personal_interests": [
+      "Watching and attending MLB games — especially the Los Angeles Dodgers at Dodger Stadium.",
+      "Following high-stakes soccer matches, cheering for Mexico and the United States.",
+      "Spending quality time with family, including Disneyland trips and travel to new places around the world."
+    ],
+    "resume_link": "https://www.dropbox.com/scl/fi/vr6msczyp321femehlrcg/Daniel-Saenz-Resume.pdf?rlkey=y2zh8uhylud8zgp6dt5jiund6&st=ai7knzyg&dl=0"
+  },
   "experience": [
     {
       "company": "AmeriCorps (formerly CNCS)",
@@ -133,8 +147,7 @@
       "HashiCorp Vault", "AWS KMS", "AWS WAF"
     ],
     "container_registries": [
-      "Amazon ECR", "Docker Hub", "Artifactory",
-      "Azure Container Registry"
+      "Amazon ECR", "Docker Hub", "Artifactory", "Azure Container Registry"
     ],
     "ai_ml_services": [
       "Azure Cognitive Services", "Amazon Polly",
