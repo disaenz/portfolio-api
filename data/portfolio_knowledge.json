@@ -22,10 +22,12 @@
       "start": "Jun 2024",
       "end": "Present",
       "responsibilities": [
-        "Built and maintained secure CI/CD pipelines integrating Fortify, SonarQube, and Trivy.",
-        "Automated deployment, testing, and vulnerability scans on pull requests.",
-        "Containerized applications using Docker for standardized deployment across environments.",
-        "Designed a multilingual translator app using C# and Azure Cognitive Services."
+        "Lead secure software delivery initiatives for multiple enterprise applications by designing and improving CI/CD pipelines with GitHub Actions.",
+        "Integrated automated code scanning, container security, and SAST tools including Fortify, SonarQube, and Trivy to enforce DevSecOps best practices.",
+        "Partner with engineering and product teams to modernize applications and support future AI expansion within the agency.",
+        "Developed a multilingual translator application using C# and Azure Cognitive Services to support accessibility and global engagement.",
+        "Contribute to strategic efforts that expand cloud adoption, improve operational reliability, and scale platforms across AWS and Azure services.",
+        "Provide guidance and hands-on engineering to ensure secure deployment workflows and automation standards across the organization."
       ]
     },
     {
