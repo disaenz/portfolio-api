@@ -102,7 +102,7 @@ class AIService:
                     {"role": "system", "content": system_content},
                     {"role": "user", "content": message},
                 ],
-                max_output_tokens=300,
+                max_output_tokens=800,
                 metadata={
                     "service": "portfolio-api",
                     "env": os.getenv("APP_ENV", "local"),
