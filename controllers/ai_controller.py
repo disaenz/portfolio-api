@@ -24,17 +24,19 @@ async def health_check():
     "/chat",
     response_model=ChatResponse,
     summary="Ask the AI about Daniel",
-    description="You may ask in either English or Spanish. The AI will respond in whichever language is used."
+    description="English + Español. Context-aware follow-up questions supported."
 )
 async def chat_with_ai(request: ChatRequest):
-    # Ensure history exists as list of dicts
-    history = []
-    if request.history:
-        history = [{"role": h.role, "content": h.content} for h in request.history]
+    # Ensure the request includes a valid history list
+    history = [
+        {"role": msg.role, "content": msg.content}
+        for msg in (request.history or [])
+        if msg.role in {"user", "assistant"} and msg.content
+    ]
 
     ai_response = await ai_service.process_message(
         message=request.message,
-        history=history
+        history=history,
     )
 
     if not ai_response:
