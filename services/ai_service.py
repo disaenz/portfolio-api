@@ -1,8 +1,8 @@
-# services/ai_service.py
 import os
 import json
 import re
 from pathlib import Path
+from typing import List, Dict, Optional
 
 from langdetect import detect, LangDetectException
 from openai import OpenAI
@@ -12,11 +12,9 @@ from config.ai_prompts import PORTFOLIO_CONTEXT
 
 client = OpenAI()
 
-
 # ---------------------------------------------------------
 # Load portfolio knowledge from JSON
 # ---------------------------------------------------------
-
 
 def _load_portfolio_knowledge() -> dict:
     data_path = (
@@ -36,7 +34,7 @@ PORTFOLIO_KNOWLEDGE = _load_portfolio_knowledge()
 
 
 # ---------------------------------------------------------
-# Spanish / English fallback messages
+# Spanish / English fallback messaging
 # ---------------------------------------------------------
 
 FORBIDDEN_RESPONSE = {
@@ -50,15 +48,17 @@ FORBIDDEN_RESPONSE = {
     ),
 }
 
+# Track last 6 messages to control token usage
+SAFE_HISTORY_LIMIT = 6
+
 
 # ---------------------------------------------------------
 # AI Service
 # ---------------------------------------------------------
 
-
 class AIService:
+
     def _detect_language(self, text: str) -> str:
-        """Attempts to determine if input is Spanish or English."""
         try:
             lang = detect(text)
             return "es" if lang == "es" else "en"
@@ -66,41 +66,61 @@ class AIService:
             return "en"
 
     def _is_forbidden(self, message: str) -> bool:
-        """
-        Check if the message hits any forbidden topic.
-
-        Uses word-boundary regex so we don't accidentally match
-        substrings like 'languAGEs' for the keyword 'age'.
-        """
         lowered = message.lower()
-
         for keyword in FORBIDDEN_KEYWORDS:
-            # Build a safe word-boundary regex for the keyword
             pattern = rf"\b{re.escape(keyword.lower())}\b"
             if re.search(pattern, lowered):
                 return True
-
         return False
 
-    async def process_message(self, message: str) -> str:
+    def _build_conversation(
+        self,
+        history: Optional[List[Dict[str, str]]],
+        latest_user_message: str,
+    ) -> List[Dict[str, str]]:
+        conversation: List[Dict[str, str]] = []
+
+        if history:
+            # Keep only the most recent history slice
+            trimmed = history[-SAFE_HISTORY_LIMIT:]
+            for item in trimmed:
+                role = "assistant" if item.get("from") == "ai" else "user"
+                content = item.get("text", "")
+                if content:
+                    conversation.append(
+                        {"role": role, "content": content}
+                    )
+
+        # Always include the latest user question at the end
+        conversation.append({"role": "user", "content": latest_user_message})
+        return conversation
+
+    async def process_message(
+        self,
+        message: str,
+        history: Optional[List[Dict[str, str]]] = None,
+    ) -> str:
         lang = self._detect_language(message)
 
         if self._is_forbidden(message):
             return FORBIDDEN_RESPONSE[lang]
 
-        # System context + knowledge data
+        # System + embedded knowledge base
         system_content = (
             PORTFOLIO_CONTEXT
             + "\n\nHere is my portfolio data:\n"
             + json.dumps(PORTFOLIO_KNOWLEDGE, indent=2)
         )
 
+        # Build the combined chat turn list
+        conversation_messages = self._build_conversation(history, message)
+
         try:
             response = client.responses.create(
                 model="gpt-4o-mini",
                 input=[
                     {"role": "system", "content": system_content},
-                    {"role": "user", "content": message},
+                    *conversation_messages,
                 ],
                 max_output_tokens=800,
                 metadata={
@@ -113,25 +133,20 @@ class AIService:
 
             reply_text = response.output_text or ""
 
-            # If the user spoke Spanish but reply looks non-Spanish,
-            # attempt a lightweight translation.
             if lang == "es" and not self._is_spanish(reply_text):
                 return await self._translate_to_spanish(reply_text)
 
             return reply_text
 
         except Exception as e:
-            # Log to stdout so CloudWatch / logs can pick it up
             print("OpenAI error:", e)
             return FORBIDDEN_RESPONSE[lang]
 
     def _is_spanish(self, text: str) -> bool:
-        """Checks if reply is Spanish (very simple heuristic)."""
         lowered = text.lower()
         return any(ch in lowered for ch in "áéíóúñ¿¡")
 
     async def _translate_to_spanish(self, text: str) -> str:
-        """Use OpenAI to translate reply to Spanish when needed."""
         try:
             translation = client.responses.create(
                 model="gpt-4o-mini",
@@ -144,5 +159,4 @@ class AIService:
             )
             return translation.output_text
         except Exception:
-            # If translation fails, just return the original English text
             return text
