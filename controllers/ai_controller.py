@@ -20,9 +20,22 @@ async def health_check():
     return {"status": "ok"}
 
 
-@router.post("/chat", response_model=ChatResponse, summary="Ask the AI about Daniel", description="You may ask in either English or Spanish. The AI will respond in whichever language you use.")
+@router.post(
+    "/chat",
+    response_model=ChatResponse,
+    summary="Ask the AI about Daniel",
+    description="You may ask in either English or Spanish. The AI will respond in whichever language is used."
+)
 async def chat_with_ai(request: ChatRequest):
-    ai_response = await ai_service.process_message(request.message)
+    # Ensure history exists as list of dicts
+    history = []
+    if request.history:
+        history = [{"role": h.role, "content": h.content} for h in request.history]
+
+    ai_response = await ai_service.process_message(
+        message=request.message,
+        history=history
+    )
 
     if not ai_response:
         raise HTTPException(status_code=500, detail="Unable to generate response")
