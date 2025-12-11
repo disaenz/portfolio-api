@@ -242,6 +242,8 @@
       "name": "DevSecOps PoC (EPCC Showcase)",
       "description": "Educational DevSecOps environment demonstrating CI/CD, containerization, and Kubernetes operations used to train students on modern software delivery.",
       "impact": "Helped engineering students gain real-world DevSecOps exposure.",
+      "voluntary": true,
+      "context": "Built as voluntary work for EPCC to support student learning.",
       "tech_stack": [
         "Jenkins", "Docker", "Kubernetes", "Security Scanning"
       ],
