@@ -248,6 +248,32 @@
         "Jenkins", "Docker", "Kubernetes", "Security Scanning"
       ],
       "repo": "https://github.com/disaenz/hello_world_devsecops"
+    },
+    {
+      "name": "Trenzando Corazones Mobile App (Cancer Survivor)",
+      "description": "A bilingual mobile application (Spanish-focused) designed to support the annual 'Trenzando Corazones' charity event, where participants donated ponytails to benefit individuals fighting cancer. The application enabled dynamic questionnaire creation, participant data collection, and secure backend storage.",
+      "role": "Volunteer full-stack developer",
+      "years": "2016–2018",
+      "impact": "Helped organizers streamline event-day data collection and improve reporting by digitizing survey workflows previously completed on paper.",
+      "voluntary": true,
+      "context": "Developed as voluntary work for the Cancer Survivor organization to support their yearly charity initiative.",
+      "features": [
+        "On-the-fly questionnaire/survey generation",
+        "Mobile data entry for event participants",
+        "Backend API for securely storing responses in MongoDB",
+        "Companion frontend dashboard for monitoring submissions",
+        "Spreadsheet export functionality for annual reporting",
+        "Offline-capable installation (APK sideloading) used for PoC"
+      ],
+      "tech_stack": [
+        "Apache Cordova",
+        "JavaScript",
+        "Python",
+        "Flask API",
+        "MongoDB"
+      ],
+      "deployment": "Manually deployed to Android devices for event use; not published to app stores.",
+      "repo": "Private — contains sensitive participant and survey logic"
     }
   ]
 }
