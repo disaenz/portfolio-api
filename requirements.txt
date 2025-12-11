@@ -6,4 +6,6 @@ greenlet
 mangum
 openai
 langdetect
+boto3
+botocore
 
