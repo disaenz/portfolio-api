@@ -1,10 +1,11 @@
 {
-  "summary": "Senior DevSecOps and Software Engineer with over 10 years of experience supporting federal and public sector initiatives. Skilled in backend development, secure CI/CD automation, and multi-cloud infrastructure across AWS, Azure, and GCP.",
+  "summary": "Senior DevSecOps and Software Engineer with over 10 years of experience supporting federal and public sector initiatives. Skilled in backend development, secure CI/CD automation, Infrastructure as Code, containerized applications, and multi-cloud infrastructure across AWS, Azure, and GCP.",
   "about": {
     "bio": [
-      "I’m a Software Engineer & DevSecOps Engineer with over 10 years of experience specializing in scalable backend systems and secure software delivery.",
+      "I’m a Software Engineer & DevSecOps Engineer with over 10 years of experience specializing in scalable backend systems, secure software delivery, and cloud modernization.",
       "My focus is on building modern CI/CD pipelines that automate builds, enforce security scanning, run automated testing, and enable fast and reliable deployments.",
-      "Over the years, I’ve engineered complete applications and multi-cloud infrastructure migrations to AWS, Azure, GCP, and Oracle Cloud, always prioritizing reliability and zero downtime.",
+      "Over the years, I’ve engineered complete applications and multi-cloud infrastructure migrations to AWS, Azure, GCP, and Oracle Cloud, always prioritizing reliability, security, and maintainability.",
+      "I also have hands-on experience building modern internal applications using React, Python FastAPI, PostgreSQL, containerized services, and Azure Infrastructure as Code.",
       "Technology moves fast — I stay ahead by quickly mastering new frameworks, tools, and cloud platforms to support evolving program needs."
     ],
     "personal_interests": [
@@ -22,8 +23,11 @@
       "start": "Jun 2024",
       "end": "Present",
       "responsibilities": [
-        "Lead secure software delivery initiatives for multiple enterprise applications by designing and improving CI/CD pipelines with GitHub Actions.",
-        "Integrated automated code scanning, container security, and SAST tools including Fortify, SonarQube, and Trivy to enforce DevSecOps best practices.",
+        "Lead secure software delivery initiatives for multiple enterprise applications by designing and improving CI/CD pipelines with GitHub Actions and Azure DevOps.",
+        "Integrated automated code scanning, container security, and SAST tools including Fortify, SonarQube, Trivy, Ruff, Bandit, and pip-audit to enforce DevSecOps best practices.",
+        "Architect and develop a modern cloud-based internal application using React, Python FastAPI, PostgreSQL, Docker, and Microsoft Azure services to support operational modernization efforts.",
+        "Design Infrastructure as Code solutions using Bicep and Azure DevOps pipelines to automate deployment validation, environment provisioning, and repeatable cloud infrastructure updates.",
+        "Support Azure-based container and data platform modernization using services such as Azure Container Registry, Azure Container Apps, and Azure Database for PostgreSQL.",
         "Partner with engineering and product teams to modernize applications and support future AI expansion within the agency.",
         "Developed a multilingual translator application using C# and Azure Cognitive Services to support accessibility and global engagement.",
         "Contribute to strategic efforts that expand cloud adoption, improve operational reliability, and scale platforms across AWS and Azure services.",
@@ -106,61 +110,132 @@
   ],
   "skills": {
     "languages_frameworks": [
-      "C#", "Java", "Python", "JavaScript",
-      "React", "AngularJS", "Node.js",
-      "ASP.NET", ".NET Core", "PHP",
-      "HTML", "CSS", "Chakra UI"
+      "C#",
+      "Java",
+      "Python",
+      "JavaScript",
+      "React",
+      "AngularJS",
+      "Node.js",
+      "ASP.NET",
+      ".NET Core",
+      "PHP",
+      "HTML",
+      "CSS",
+      "Chakra UI",
+      "FastAPI"
     ],
     "devsecops_ci_cd": [
-      "GitHub Actions", "GitLab CI", "Jenkins",
-      "AWS CodePipeline", "ArgoCD",
-      "Fortify", "Trivy", "SonarQube",
-      "GitOps"
+      "GitHub Actions",
+      "GitLab CI",
+      "Jenkins",
+      "AWS CodePipeline",
+      "Azure DevOps Pipelines",
+      "ArgoCD",
+      "Fortify",
+      "Trivy",
+      "SonarQube",
+      "GitOps",
+      "Ruff",
+      "Bandit",
+      "pip-audit"
     ],
     "productivity_automation": [
-      "Azure Copilot", "Microsoft Forms", "Power Automate"
+      "Azure Copilot",
+      "Microsoft Forms",
+      "Power Automate"
     ],
     "infrastructure_as_code": [
-      "Terraform", "CloudFormation"
+      "Terraform",
+      "Bicep",
+      "CloudFormation",
+      "Azure Resource Manager (ARM)"
     ],
     "containers_orchestration": [
-      "Docker", "Docker Compose", "Kubernetes",
-      "Minikube", "Helm", "OpenShift", "Podman",
-      "EKS", "AKS", "GKE", "ECS", "Fargate"
+      "Docker",
+      "Docker Compose",
+      "Kubernetes",
+      "Minikube",
+      "Helm",
+      "OpenShift",
+      "Podman",
+      "EKS",
+      "AKS",
+      "GKE",
+      "ECS",
+      "Fargate"
     ],
     "cloud_platforms": [
-      "AWS", "Azure", "Google Cloud", "Oracle Cloud", "DigitalOcean"
+      "Azure",
+      "AWS",
+      "Google Cloud",
+      "Oracle Cloud",
+      "DigitalOcean"
     ],
     "aws_services": [
-      "EC2", "S3", "IAM", "Route 53", "Amazon Kinesis",
-      "AWS Lambda", "API Gateway", "Amazon RDS",
-      "Amazon ECR", "AWS KMS", "AWS WAF"
+      "EC2",
+      "S3",
+      "IAM",
+      "Route 53",
+      "Amazon Kinesis",
+      "AWS Lambda",
+      "API Gateway",
+      "Amazon RDS",
+      "Amazon ECR",
+      "AWS KMS",
+      "AWS WAF"
+    ],
+    "azure_services": [
+      "Azure Container Apps",
+      "Azure Container Registry",
+      "Azure Database for PostgreSQL",
+      "Microsoft Graph API"
     ],
     "relational_databases": [
-      "PostgreSQL", "MySQL", "SQL Server", "Amazon RDS"
+      "PostgreSQL",
+      "MySQL",
+      "SQL Server",
+      "Amazon RDS"
     ],
     "nosql_databases": [
-      "MongoDB", "DynamoDB"
+      "MongoDB",
+      "DynamoDB"
     ],
     "web_servers": [
-      "Apache", "Nginx", "IIS", "Gunicorn"
+      "Apache",
+      "Nginx",
+      "IIS",
+      "Gunicorn"
     ],
     "secrets_security": [
-      "HashiCorp Vault", "AWS KMS", "AWS WAF"
+      "HashiCorp Vault",
+      "AWS KMS",
+      "AWS WAF"
     ],
     "container_registries": [
-      "Amazon ECR", "Docker Hub", "Artifactory", "Azure Container Registry"
+      "Amazon ECR",
+      "Azure Container Registry",
+      "Docker Hub",
+      "Artifactory"
     ],
     "ai_ml_services": [
-      "Azure Cognitive Services", "Amazon Polly",
-      "Amazon Transcribe", "Amazon Comprehend"
+      "Azure Cognitive Services",
+      "Amazon Polly",
+      "Amazon Transcribe",
+      "Amazon Comprehend"
     ],
     "scripting_tools": [
-      "Bash", "Batch", "Git",
-      "VS Code", "Visual Studio", "PyCharm", "Eclipse"
+      "Bash",
+      "Batch",
+      "Git",
+      "VS Code",
+      "Visual Studio",
+      "PyCharm",
+      "Eclipse"
     ],
     "languages_spoken": [
-      "English (Fluent)", "Spanish (Fluent)"
+      "English (Fluent)",
+      "Spanish (Fluent)"
     ]
   },
   "languages": [
@@ -181,8 +256,14 @@
         "CI/CD using GitHub Actions"
       ],
       "tech_stack": [
-        "Terraform", "AWS", "CloudFront", "Route 53",
-        "Lambda", "API Gateway", "CI/CD", "GitHub Actions"
+        "Terraform",
+        "AWS",
+        "CloudFront",
+        "Route 53",
+        "Lambda",
+        "API Gateway",
+        "CI/CD",
+        "GitHub Actions"
       ],
       "repo": "https://github.com/disaenz/aws-iac"
     },
@@ -198,8 +279,13 @@
         "Real-time integration with Portfolio API"
       ],
       "tech_stack": [
-        "React", "Chakra UI", "Vite",
-        "AWS S3", "CloudFront", "CI/CD", "GitHub Actions"
+        "React",
+        "Chakra UI",
+        "Vite",
+        "AWS S3",
+        "CloudFront",
+        "CI/CD",
+        "GitHub Actions"
       ],
       "repo": "https://github.com/disaenz/portfolio-site"
     },
@@ -215,8 +301,13 @@
         "Structured portfolio metadata extraction"
       ],
       "tech_stack": [
-        "Python", "FastAPI", "AWS Lambda",
-        "API Gateway", "OpenAI API", "Docker", "CI/CD"
+        "Python",
+        "FastAPI",
+        "AWS Lambda",
+        "API Gateway",
+        "OpenAI API",
+        "Docker",
+        "CI/CD"
       ],
       "repo": "https://github.com/disaenz/portfolio-api",
       "demo": "https://api.daniel-saenz.com/docs"
@@ -233,7 +324,11 @@
         "CloudFront deployment automation"
       ],
       "tech_stack": [
-        "React", "AWS S3", "API Gateway", "FastAPI", "CI/CD"
+        "React",
+        "AWS S3",
+        "API Gateway",
+        "FastAPI",
+        "CI/CD"
       ],
       "repo": "https://github.com/disaenz/grant-app",
       "demo": "https://grants.daniel-saenz.com/"
@@ -245,7 +340,10 @@
       "voluntary": true,
       "context": "Built as voluntary work for EPCC to support student learning.",
       "tech_stack": [
-        "Jenkins", "Docker", "Kubernetes", "Security Scanning"
+        "Jenkins",
+        "Docker",
+        "Kubernetes",
+        "Security Scanning"
       ],
       "repo": "https://github.com/disaenz/hello_world_devsecops"
     },
