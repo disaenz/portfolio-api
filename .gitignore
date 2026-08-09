@@ -44,3 +44,9 @@ Thumbs.db
 # Other files
 *.log
 .env
+
+# Generated locally by scripts/refresh_portfolio_knowledge.py for inspection.
+data/portfolio_knowledge.json
+
+# Local Docker data
+.docker/

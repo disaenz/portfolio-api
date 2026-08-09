@@ -1,7 +1,5 @@
 import os
 import json
-from pathlib import Path
-from typing import List, Dict, Optional
 
 from langdetect import detect, LangDetectException
 from openai import OpenAI
@@ -15,21 +13,12 @@ from config.ai_prompts import (
     FALLBACK_MISSING_KNOWLEDGE_ES,
 )
 from services.email_service import send_email  # <-- EMAIL SERVICE
+from database import AsyncSessionLocal
+from repositories.portfolio_knowledge_repository import get_current_knowledge
 
 client = OpenAI()
+AI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
-# ---------------------------------------------------------
-# Load portfolio knowledge JSON
-# ---------------------------------------------------------
-def _load_portfolio_knowledge() -> dict:
-    data_path = (
-        Path(__file__).resolve().parent.parent / "data" / "portfolio_knowledge.json"
-    )
-    with data_path.open("r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-PORTFOLIO_KNOWLEDGE = _load_portfolio_knowledge()
 SAFE_HISTORY_LIMIT = 6
 
 
@@ -62,7 +51,16 @@ class AIService:
         return conversation
 
     # -----------------------------
-    # Email alert for missing JSON knowledge
+    async def _get_portfolio_knowledge(self) -> dict | None:
+        """Read the current generated context from PostgreSQL for every chat."""
+        try:
+            async with AsyncSessionLocal() as db:
+                return await get_current_knowledge(db)
+        except Exception as error:
+            print("Portfolio knowledge database error:", error)
+            return None
+
+    # Email alert for missing generated knowledge
     # -----------------------------
     def _trigger_missing_knowledge_email(self, user_question, history):
         if history:
@@ -79,12 +77,12 @@ class AIService:
 
         body = (
             "The AI assistant could not answer the following professional question due "
-            "to missing data in portfolio_knowledge.json.\n\n"
+            "to missing generated portfolio knowledge.\n\n"
             f"User Question:\n{user_question}\n\n"
             "Recent Chat History:\n"
             "--------------------------------------------------\n"
             f"{history_text}\n\n"
-            "Action: Update portfolio_knowledge.json with the new information."
+            "Action: run scripts/refresh_portfolio_knowledge.py after updating the site or resume."
         )
 
         send_email(subject, body)
@@ -100,18 +98,22 @@ class AIService:
         if is_forbidden_message(message):
             return FALLBACK_OUT_OF_SCOPE_ES if lang == "es" else FALLBACK_OUT_OF_SCOPE_EN
 
-        # 2. System + JSON data
+        # 2. System + database-backed data
+        portfolio_knowledge = await self._get_portfolio_knowledge()
+        if not portfolio_knowledge:
+            return FALLBACK_MISSING_KNOWLEDGE_ES if lang == "es" else FALLBACK_MISSING_KNOWLEDGE_EN
+
         system_content = (
             PORTFOLIO_CONTEXT
             + "\n\nHere is my portfolio data:\n"
-            + json.dumps(PORTFOLIO_KNOWLEDGE, indent=2)
+            + json.dumps(portfolio_knowledge, indent=2)
         )
 
         conversation_messages = self._build_conversation(history, message)
 
         try:
             response = client.responses.create(
-                model="gpt-4o-mini",
+                model=AI_MODEL,
                 input=[{"role": "system", "content": system_content}, *conversation_messages],
                 max_output_tokens=800,
                 metadata={
@@ -171,7 +173,7 @@ class AIService:
     async def _translate_to_spanish(self, text: str) -> str:
         try:
             translation = client.responses.create(
-                model="gpt-4o-mini",
+                model=AI_MODEL,
                 input=f"Translate this to Spanish while preserving tone:\n{text}",
                 max_output_tokens=200,
             )

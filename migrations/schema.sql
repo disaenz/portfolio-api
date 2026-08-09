@@ -36,3 +36,17 @@ CREATE TRIGGER set_updated_at
   BEFORE UPDATE ON grant_schema.grants
   FOR EACH ROW
   EXECUTE PROCEDURE grant_schema.update_timestamp();
+
+-- Knowledge used by the portfolio AI assistant. Kept separate from grants so
+-- the grantmaking consumer remains isolated.
+CREATE SCHEMA IF NOT EXISTS portfolio_schema;
+
+CREATE TABLE IF NOT EXISTS portfolio_schema.knowledge_documents (
+  id                SMALLINT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+  content           JSONB NOT NULL,
+  source_site_url   TEXT NOT NULL,
+  source_resume_url TEXT,
+  source_hash       TEXT NOT NULL,
+  generated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

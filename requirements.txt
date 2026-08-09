@@ -8,4 +8,6 @@ openai
 langdetect
 boto3
 botocore
-
+beautifulsoup4
+pypdf
+requests

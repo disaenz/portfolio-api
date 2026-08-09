@@ -9,12 +9,62 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 env:
   ECR_REPOSITORY: portfolio-api
   LAMBDA_FUNCTION_NAME: portfolio-api
+  KNOWLEDGE_REFRESH_FUNCTION_NAME: portfolio-knowledge-refresh
+  # Configure this non-secret repository variable in GitHub Settings > Variables.
+  OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
 
 jobs:
+  changes:
+    name: "🔎 Detect changed paths"
+    runs-on: ubuntu-latest
+    outputs:
+      migrations: ${{ steps.filter.outputs.migrations }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            migrations:
+              - 'migrations/**'
+
+  migration_check:
+    name: "🗃️ Validate migrations"
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.migrations == 'true'
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: portfolio_ci
+          POSTGRES_USER: portfolio
+          POSTGRES_PASSWORD: portfolio
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U portfolio -d portfolio_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PSQL_URL: postgresql://portfolio:portfolio@localhost:5432/portfolio_ci
+    steps:
+      - name: "🔄 Checkout repository"
+        uses: actions/checkout@v4
+
+      - name: "🗃️ Apply schema to disposable PostgreSQL"
+        run: |
+          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/schema.sql
+          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/mock_data.sql
+          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -c "SELECT to_regclass('grant_schema.grants'), to_regclass('portfolio_schema.knowledge_documents');"
+          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -c "SELECT COUNT(*) = 6 AS mock_grants_seeded FROM grant_schema.grants;"
+
   pip_audit:
     name: "🐍 pip-audit (Python Dependency Vulnerability Scan)"
     runs-on: ubuntu-latest
@@ -106,11 +156,39 @@ jobs:
           severity: CRITICAL
           exit-code: '1'
 
+  migrate:
+    name: "🗃️ Apply production migrations"
+    runs-on: ubuntu-latest
+    needs: [changes, migration_check, scan]
+    if: >-
+      always() &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.changes.outputs.migrations == 'true' &&
+      needs.migration_check.result == 'success' &&
+      needs.scan.result == 'success'
+    env:
+      # Store the PSQL_URL from the API .env as a GitHub Actions secret.
+      PSQL_URL: ${{ secrets.PSQL_URL }}
+    steps:
+      - name: "🔄 Checkout repository"
+        uses: actions/checkout@v4
+
+      - name: "🗃️ Apply schema and mock data to Neon"
+        run: |
+          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/schema.sql
+          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/mock_data.sql
+
   deploy:
     name: "🚀 Deploy to Lambda"
     runs-on: ubuntu-latest
-    needs: scan
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: [scan, migrate]
+    if: >-
+      always() &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.scan.result == 'success' &&
+      (needs.migrate.result == 'success' || needs.migrate.result == 'skipped')
     steps:
       - name: "🔐 Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v2
@@ -121,6 +199,27 @@ jobs:
 
       - name: "🚀 Update Lambda function"
         run: |
-          aws lambda update-function-code \
-            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
-            --image-uri ${{ secrets.IMAGE_URI }}
+          FUNCTIONS="${{ env.LAMBDA_FUNCTION_NAME }}"
+          if aws lambda get-function \
+            --function-name "${{ env.KNOWLEDGE_REFRESH_FUNCTION_NAME }}" >/dev/null 2>&1; then
+            FUNCTIONS="$FUNCTIONS ${{ env.KNOWLEDGE_REFRESH_FUNCTION_NAME }}"
+          else
+            echo "Knowledge refresh Lambda is not provisioned yet; Terraform will create it."
+          fi
+
+          for FUNCTION_NAME in $FUNCTIONS; do
+            aws lambda update-function-code \
+              --function-name "$FUNCTION_NAME" \
+              --image-uri ${{ secrets.IMAGE_URI }}
+            aws lambda wait function-updated --function-name "$FUNCTION_NAME"
+
+            CURRENT_ENV=$(aws lambda get-function-configuration \
+              --function-name "$FUNCTION_NAME" \
+              --query 'Environment.Variables' \
+              --output json)
+            UPDATED_ENV=$(jq -c --arg model "$OPENAI_MODEL" \
+              '(. // {}) + {OPENAI_MODEL: $model}' <<< "$CURRENT_ENV")
+            aws lambda update-function-configuration \
+              --function-name "$FUNCTION_NAME" \
+              --environment "Variables=$UPDATED_ENV"
+          done

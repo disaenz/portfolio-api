@@ -62,13 +62,25 @@ https://api.daniel-saenz.com/docs
     pip install -r requirements.txt
     ```
 
-3.	**Run locally**
+3. **Run the complete local stack**
+
+    The API repository's Compose file starts an isolated PostgreSQL instance,
+    applies `migrations/schema.sql` and repeatably seeds `migrations/mock_data.sql`, and
+    starts both the API and the sibling `portfolio-site` repository with hot
+    reload enabled.
 
     ```bash
-    uvicorn main:app --reload
+    cp .env.example .env # fill in OPENAI_API_KEY; retain any SES values you use
+    ./run_dev.sh
     ```
 
-    The API will be available at http://localhost:8000
+    - Site: http://localhost:5173
+    - API and docs: http://localhost:8010/docs
+    - Local PostgreSQL: `localhost:5434` (`portfolio` / `portfolio`, database `portfolio_local`)
+
+    The stack starts in the background. View logs with `docker compose logs -f`;
+    stop it with `docker compose down`. To remove the local database as well,
+    run `docker compose down -v`.
 
 4.	**Test API endpoints**
 
@@ -76,19 +88,33 @@ https://api.daniel-saenz.com/docs
 
 ---
 
-## 🐳 Docker Usage
+## 🤖 Refreshing AI knowledge
 
-1.	**Build Docker image**
+The assistant no longer reads a checked-in JSON file. Its current knowledge is
+stored as JSONB in PostgreSQL. After publishing a site or resume update, run:
 
-    ```bash
-    docker build -f Dockerfile.local -t portfolio-api:latest .
-    ```
+```bash
+./refresh_local_knowledge.sh
+```
 
-2.	**Run Docker container locally**
+The command reads `https://daniel-saenz.com` by default, discovers the public
+Dropbox resume link from the site bundle (or uses `PORTFOLIO_RESUME_URL`), and
+uses `OPENAI_MODEL` (default: `gpt-4o-mini`) to produce the existing portfolio-knowledge shape before
+upserting it into the local database. It also writes the pretty-printed result
+to ignored `data/portfolio_knowledge.json` for local inspection. It requires
+the Compose stack and a valid `OPENAI_API_KEY`. Set `PORTFOLIO_SITE_URL` if you
+want to refresh from a different deployed environment. The command shows
+five progress steps while it reads the sources, generates the JSON, and saves it.
+AWS runs the same image as a separate `portfolio-knowledge-refresh` Lambda at
+8:00 AM America/Denver each day. It exits before calling OpenAI when the source
+hash is unchanged.
 
-    ```bash
-    docker run -p 8000:8080 portfolio-api:latest
-    ```
+For a non-container environment, run the same Python entry point after applying
+the schema and setting `DATABASE_URL`:
+
+```bash
+python scripts/refresh_portfolio_knowledge.py
+```
 
 ---
 
@@ -109,6 +135,23 @@ This repository includes a complete GitHub Actions pipeline:
 4.	Deploy: Updates the AWS Lambda function with the new image
 
 All sensitive values (ECR repo, image URI, AWS credentials) are stored as GitHub Secrets.
+Set the non-secret `OPENAI_MODEL` GitHub Actions repository variable to choose
+the model deployed to Lambda; it defaults to `gpt-4o-mini`.
+
+When a pull request or push changes `migrations/**`, CI applies
+`migrations/schema.sql` to a disposable PostgreSQL service. On a successful
+push to `main`, CD applies both `schema.sql` and `mock_data.sql` to Neon before
+updating Lambda. The mock-data seed removes and reinserts only its six known
+demo grants, so it can be safely reapplied without duplicates.
+Add a `PSQL_URL` GitHub Actions secret using the `PSQL_URL` value from the API
+environment file; it is deliberately separate from the application's async
+`DATABASE_URL`.
+
+To open a direct Neon `psql` session using the local `.env` value, run:
+
+```bash
+./connect_neon.sh
+```
 
 ---
 
