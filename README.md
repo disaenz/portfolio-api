@@ -107,7 +107,9 @@ want to refresh from a different deployed environment. The command shows
 five progress steps while it reads the sources, generates the JSON, and saves it.
 AWS runs the same image as a separate `portfolio-knowledge-refresh` Lambda at
 8:00 AM America/Denver each day. It exits before calling OpenAI when the source
-hash is unchanged.
+hash is unchanged. If a refresh fails, it emails `RECIPIENT_EMAIL` from
+`SES_SENDER_EMAIL` using the existing SES service, then re-raises the error so
+EventBridge retries and CloudWatch records the failure.
 
 For a non-container environment, run the same Python entry point after applying
 the schema and setting `DATABASE_URL`:
