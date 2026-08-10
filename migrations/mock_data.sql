@@ -3,6 +3,19 @@
 -- point at your schema
 SET search_path TO grant_schema;
 
+-- The seed is intentionally repeatable. Remove only these known demo rows
+-- before inserting their current definitions, so a rerun updates seed content
+-- without creating duplicate grants.
+DELETE FROM grants
+WHERE (name, program, type) IN (
+  ('Continuations', 'VISTA', 'Non-competitive'),
+  ('State Competitive Awards', 'State Grants', 'Competitive'),
+  ('Senior Corps Renewal', 'Senior Corps', 'Non-competitive'),
+  ('Education Grants', 'Education', 'Competitive'),
+  ('Disaster Relief', 'Emergency Response', 'Competitive'),
+  ('Community Development', 'Community', 'Non-competitive')
+);
+
 INSERT INTO grants (
   name,
   program,

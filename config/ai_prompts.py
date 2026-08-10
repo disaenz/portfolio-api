@@ -177,7 +177,7 @@ FALLBACK_OUT_OF_SCOPE_ES = (
     "experiencia laboral y habilidades técnicas."
 )
 
-# When the question *is* professional but missing from portfolio_knowledge.json
+# When the question *is* professional but missing from generated portfolio knowledge
 FALLBACK_MISSING_KNOWLEDGE_EN = (
     "I'm unable to answer this information at the moment, but I'll make sure to answer this soon."
 )

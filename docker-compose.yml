@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: portfolio_local
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio
+    ports:
+      - "5434:5432"
+    volumes:
+      - portfolio_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio -d portfolio_local"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  migrate:
+    image: postgres:16-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: portfolio_local
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio
+    volumes:
+      - ./migrations:/migrations:ro
+    command: ["/bin/sh", "/migrations/run_local_migrations.sh"]
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql+asyncpg://portfolio:portfolio@db:5432/portfolio_local
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SES_REGION: ${SES_REGION:-}
+      SES_SENDER_EMAIL: ${SES_SENDER_EMAIL:-}
+      RECIPIENT_EMAIL: ${RECIPIENT_EMAIL:-}
+      PORTFOLIO_SITE_URL: ${PORTFOLIO_SITE_URL:-https://daniel-saenz.com}
+      PORTFOLIO_RESUME_URL: ${PORTFOLIO_RESUME_URL:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      APP_ENV: local
+    ports:
+      - "8010:8000"
+    volumes:
+      - .:/app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  site:
+    build:
+      context: ../portfolio-site
+      dockerfile: Dockerfile.local
+    depends_on:
+      - api
+    env_file:
+      - ../portfolio-site/.env
+    environment:
+      VITE_API_BASE_URL: http://localhost:8010
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../portfolio-site:/app
+      - portfolio_site_node_modules:/app/node_modules
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+
+volumes:
+  portfolio_postgres_data:
+  portfolio_site_node_modules:
