@@ -63,8 +63,18 @@ def download(url: str) -> requests.Response:
     return response
 
 
+def is_trusted_dropbox_url(url: str) -> bool:
+    """Allow only HTTPS URLs hosted by Dropbox, never a matching URL path."""
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower()
+    return parsed.scheme == "https" and (host == "dropbox.com" or host.endswith(".dropbox.com"))
+
+
 def dropbox_download_url(url: str) -> str:
     """Turn a public Dropbox share URL into a direct-download URL."""
+    if not is_trusted_dropbox_url(url):
+        raise ValueError("Resume URL must use an HTTPS Dropbox host")
+
     parsed = urlparse(url)
     query = parse_qs(parsed.query)
     query["dl"] = ["1"]
@@ -78,7 +88,7 @@ def read_site(site_url: str) -> tuple[str, str | None]:
     for link in soup.find_all("a", href=True):
         href = urljoin(site_url, link["href"])
         label = link.get_text(" ", strip=True).lower()
-        if "dropbox.com" in href and ("resume" in label or ".pdf" in href):
+        if is_trusted_dropbox_url(href) and ("resume" in label or ".pdf" in href.lower()):
             resume_url = href
             break
 
@@ -99,9 +109,11 @@ def read_site(site_url: str) -> tuple[str, str | None]:
     if not resume_url:
         # The resume link in this React/Vite site is compiled into an asset,
         # rather than present in the initial HTML response.
-        match = re.search(r"https?://[^\"'\\ ]*dropbox\.com[^\"'\\ ]*", combined_assets)
-        if match and ".pdf" in match.group(0):
-            resume_url = match.group(0).replace("\\u0026", "&")
+        for match in re.finditer(r"https?://[^\"'\\ ]*dropbox\.com[^\"'\\ ]*", combined_assets):
+            candidate = match.group(0).replace("\\u0026", "&")
+            if is_trusted_dropbox_url(candidate) and ".pdf" in candidate.lower():
+                resume_url = candidate
+                break
 
     return "\n\n".join([soup.get_text(" ", strip=True), combined_assets]), resume_url
 

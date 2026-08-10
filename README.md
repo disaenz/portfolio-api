@@ -143,9 +143,10 @@ When a pull request or push changes `migrations/**`, CI applies
 push to `main`, CD applies both `schema.sql` and `mock_data.sql` to Neon before
 updating Lambda. The mock-data seed removes and reinserts only its six known
 demo grants, so it can be safely reapplied without duplicates.
-Add a `PSQL_URL` GitHub Actions secret using the `PSQL_URL` value from the API
-environment file; it is deliberately separate from the application's async
-`DATABASE_URL`.
+Add a `DATABASE_URL` GitHub Actions secret using the application's production
+database URL. CD converts the `postgresql+asyncpg://` form to the standard
+`postgresql://` form required by `psql`. `PSQL_URL` remains optional and is
+only used by the local `connect_neon.sh` convenience script.
 
 To open a direct Neon `psql` session using the local `.env` value, run:
 

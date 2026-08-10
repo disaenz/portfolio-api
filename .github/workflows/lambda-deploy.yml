@@ -53,17 +53,17 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      PSQL_URL: postgresql://portfolio:portfolio@localhost:5432/portfolio_ci
+      DATABASE_URL: postgresql://portfolio:portfolio@localhost:5432/portfolio_ci
     steps:
       - name: "🔄 Checkout repository"
         uses: actions/checkout@v4
 
       - name: "🗃️ Apply schema to disposable PostgreSQL"
         run: |
-          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/schema.sql
-          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/mock_data.sql
-          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -c "SELECT to_regclass('grant_schema.grants'), to_regclass('portfolio_schema.knowledge_documents');"
-          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -c "SELECT COUNT(*) = 6 AS mock_grants_seeded FROM grant_schema.grants;"
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/schema.sql
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/mock_data.sql
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "SELECT to_regclass('grant_schema.grants'), to_regclass('portfolio_schema.knowledge_documents');"
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "SELECT COUNT(*) = 6 AS mock_grants_seeded FROM grant_schema.grants;"
 
   pip_audit:
     name: "🐍 pip-audit (Python Dependency Vulnerability Scan)"
@@ -168,16 +168,18 @@ jobs:
       needs.migration_check.result == 'success' &&
       needs.scan.result == 'success'
     env:
-      # Store the PSQL_URL from the API .env as a GitHub Actions secret.
-      PSQL_URL: ${{ secrets.PSQL_URL }}
+      # Reuse the application's production connection string. The step below
+      # converts SQLAlchemy's asyncpg driver URL into psql's standard URL.
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: "🔄 Checkout repository"
         uses: actions/checkout@v4
 
       - name: "🗃️ Apply schema and mock data to Neon"
         run: |
-          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/schema.sql
-          psql "$PSQL_URL" -v ON_ERROR_STOP=1 -f migrations/mock_data.sql
+          MIGRATION_DATABASE_URL=$(printf '%s' "$DATABASE_URL" | sed 's#^postgresql+asyncpg:#postgresql:#')
+          psql "$MIGRATION_DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/schema.sql
+          psql "$MIGRATION_DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/mock_data.sql
 
   deploy:
     name: "🚀 Deploy to Lambda"
