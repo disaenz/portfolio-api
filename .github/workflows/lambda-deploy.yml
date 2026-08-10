@@ -201,6 +201,8 @@ jobs:
 
       - name: "🚀 Update Lambda function"
         run: |
+          ENVIRONMENT_FILE=$(mktemp)
+          trap 'rm -f "$ENVIRONMENT_FILE"' EXIT
           FUNCTIONS="${{ env.LAMBDA_FUNCTION_NAME }}"
           if aws lambda get-function \
             --function-name "${{ env.KNOWLEDGE_REFRESH_FUNCTION_NAME }}" >/dev/null 2>&1; then
@@ -212,16 +214,18 @@ jobs:
           for FUNCTION_NAME in $FUNCTIONS; do
             aws lambda update-function-code \
               --function-name "$FUNCTION_NAME" \
-              --image-uri ${{ secrets.IMAGE_URI }}
+              --image-uri ${{ secrets.IMAGE_URI }} >/dev/null
             aws lambda wait function-updated --function-name "$FUNCTION_NAME"
 
             CURRENT_ENV=$(aws lambda get-function-configuration \
               --function-name "$FUNCTION_NAME" \
               --query 'Environment.Variables' \
               --output json)
-            UPDATED_ENV=$(jq -c --arg model "$OPENAI_MODEL" \
-              '(. // {}) + {OPENAI_MODEL: $model}' <<< "$CURRENT_ENV")
+            jq -c --arg model "$OPENAI_MODEL" \
+              '{Variables: ((. // {}) + {OPENAI_MODEL: $model})}' \
+              <<< "$CURRENT_ENV" > "$ENVIRONMENT_FILE"
             aws lambda update-function-configuration \
               --function-name "$FUNCTION_NAME" \
-              --environment "Variables=$UPDATED_ENV"
+              --environment "file://$ENVIRONMENT_FILE" >/dev/null
+            aws lambda wait function-updated --function-name "$FUNCTION_NAME"
           done
