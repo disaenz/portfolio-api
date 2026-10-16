@@ -17,7 +17,7 @@ from database import AsyncSessionLocal
 from repositories.portfolio_knowledge_repository import get_current_knowledge
 
 client = OpenAI()
-AI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+AI_MODEL = os.getenv("OPENAI_MODEL", "gpt-6-luna")
 
 SAFE_HISTORY_LIMIT = 6
 
