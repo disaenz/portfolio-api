@@ -31,7 +31,7 @@ from repositories.portfolio_knowledge_repository import (  # noqa: E402
 
 SITE_URL = os.getenv("PORTFOLIO_SITE_URL", "https://daniel-saenz.com")
 RESUME_URL = os.getenv("PORTFOLIO_RESUME_URL")
-MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+MODEL = os.getenv("OPENAI_MODEL", "gpt-6-luna")
 TIMEOUT_SECONDS = 30
 MAX_SCRIPT_BYTES = 2_000_000
 LOCAL_REFERENCE_PATH = Path(__file__).resolve().parents[1] / "data" / "portfolio_knowledge.json"

@@ -44,7 +44,7 @@ services:
       RECIPIENT_EMAIL: ${RECIPIENT_EMAIL:-}
       PORTFOLIO_SITE_URL: ${PORTFOLIO_SITE_URL:-https://daniel-saenz.com}
       PORTFOLIO_RESUME_URL: ${PORTFOLIO_RESUME_URL:-}
-      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-6-luna}
       APP_ENV: local
     ports:
       - "8010:8000"

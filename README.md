@@ -99,7 +99,7 @@ stored as JSONB in PostgreSQL. After publishing a site or resume update, run:
 
 The command reads `https://daniel-saenz.com` by default, discovers the public
 Dropbox resume link from the site bundle (or uses `PORTFOLIO_RESUME_URL`), and
-uses `OPENAI_MODEL` (default: `gpt-4o-mini`) to produce the existing portfolio-knowledge shape before
+uses `OPENAI_MODEL` (default: `gpt-6-luna`) to produce the existing portfolio-knowledge shape before
 upserting it into the local database. It also writes the pretty-printed result
 to ignored `data/portfolio_knowledge.json` for local inspection. It requires
 the Compose stack and a valid `OPENAI_API_KEY`. Set `PORTFOLIO_SITE_URL` if you
@@ -138,7 +138,7 @@ This repository includes a complete GitHub Actions pipeline:
 
 All sensitive values (ECR repo, image URI, AWS credentials) are stored as GitHub Secrets.
 Set the non-secret `OPENAI_MODEL` GitHub Actions repository variable to choose
-the model deployed to Lambda; it defaults to `gpt-4o-mini`.
+the model deployed to Lambda; it defaults to `gpt-6-luna`.
 
 When a pull request or push changes `migrations/**`, CI applies
 `migrations/schema.sql` to a disposable PostgreSQL service. On a successful

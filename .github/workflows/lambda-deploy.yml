@@ -16,18 +16,18 @@ env:
   LAMBDA_FUNCTION_NAME: portfolio-api
   KNOWLEDGE_REFRESH_FUNCTION_NAME: portfolio-knowledge-refresh
   # Configure this non-secret repository variable in GitHub Settings > Variables.
-  OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+  OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-6-luna' }}
 
 jobs:
   changes:
     name: "🔎 Detect changed paths"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       migrations: ${{ steps.filter.outputs.migrations }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: filter
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             migrations:
@@ -35,7 +35,7 @@ jobs:
 
   migration_check:
     name: "🗃️ Validate migrations"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: changes
     if: needs.changes.outputs.migrations == 'true'
     services:
@@ -56,7 +56,7 @@ jobs:
       DATABASE_URL: postgresql://portfolio:portfolio@localhost:5432/portfolio_ci
     steps:
       - name: "🔄 Checkout repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "🗃️ Apply schema to disposable PostgreSQL"
         run: |
@@ -67,13 +67,13 @@ jobs:
 
   pip_audit:
     name: "🐍 pip-audit (Python Dependency Vulnerability Scan)"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: "🔄 Checkout repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: "🦾 Set up Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -89,21 +89,21 @@ jobs:
 
   build:
     name: "🐳 Build & Push Image"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: pip_audit
     steps:
       - name: "🔄 Checkout repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: "🔐 Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: "🔓 Login to ECR"
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: "🐳 Build & Push Docker image"
         run: |
@@ -136,21 +136,21 @@ jobs:
 
   scan:
     name: "🔍 Scan Image with Trivy"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     steps:
       - name: "🔐 Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: "🔓 Login to ECR"
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: "🛡️ Scan image"
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ${{ secrets.IMAGE_URI }}
           severity: CRITICAL
@@ -158,7 +158,7 @@ jobs:
 
   migrate:
     name: "🗃️ Apply production migrations"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [changes, migration_check, scan]
     if: >-
       always() &&
@@ -173,7 +173,7 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: "🔄 Checkout repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "🗃️ Apply schema and mock data to Neon"
         run: |
@@ -183,7 +183,7 @@ jobs:
 
   deploy:
     name: "🚀 Deploy to Lambda"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [scan, migrate]
     if: >-
       always() &&
@@ -193,7 +193,7 @@ jobs:
       (needs.migrate.result == 'success' || needs.migrate.result == 'skipped')
     steps:
       - name: "🔐 Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
